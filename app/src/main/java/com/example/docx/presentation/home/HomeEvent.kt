@@ -10,6 +10,7 @@ sealed class HomeEvent {
     data object HideRenameDialog : HomeEvent()
     data class SetSelectedPdf(val pdf: PdfEntity) : HomeEvent()
 
+    data object RefreshPdfs : HomeEvent()
     data class DeletePdf(val pdf: PdfEntity) : HomeEvent()
 
     data class RenamePdf(val pdf: PdfEntity, val newName: String) : HomeEvent()

@@ -15,6 +15,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,20 +25,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.docx.R
-import com.example.docx.domain.PdfEntity
 import com.example.docx.presentation.dialogs.MoreDialog
 import com.example.docx.presentation.dialogs.RenameDialog
 import com.example.docx.presentation.home.components.PdfList
 import com.example.docx.util.copyPdfFileToAppDirectory
-import com.example.docx.util.getFileDate
+import com.example.docx.util.deleteMlkitDocscanUiClientDirectory
 import com.google.mlkit.vision.documentscanner.GmsDocumentScannerOptions
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanning
 import com.google.mlkit.vision.documentscanner.GmsDocumentScanningResult
 import java.io.File
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,11 +66,16 @@ fun HomeScreen(
                     pdfUri = it.uri,
                 )
                 event(HomeEvent.AddPdf)
+                deleteMlkitDocscanUiClientDirectory(context.cacheDir)
             }
         }
     }
     MoreDialog(event = event, state = state)
     RenameDialog(event = event, state = state)
+    val pdfList by state.pdfs.collectAsState(initial = emptyList())
+    LaunchedEffect(key1 = pdfList) {
+            event(HomeEvent.RefreshPdfs)
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -107,7 +110,7 @@ fun HomeScreen(
         }
     ) {
         PdfList(
-            pdfList = state.pdfs,
+            pdfList = pdfList,
             modifier = Modifier.padding(it).fillMaxSize(),
             event = event,
             onClick = {file ->

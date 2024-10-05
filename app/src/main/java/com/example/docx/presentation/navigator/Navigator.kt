@@ -8,7 +8,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.docx.presentation.file_display.PDFReader
+import com.example.docx.presentation.file_display.HorizontalPdfViewer
+import com.example.docx.presentation.file_display.ResourceType
+import com.example.docx.presentation.file_display.rememberHorizontalVueReaderState
 import com.example.docx.presentation.home.HomeScreen
 import com.example.docx.presentation.home.HomeViewModel
 import java.io.File
@@ -40,15 +42,18 @@ fun Navigator(){
         }
         composable(Route.PdfReader.route){
             navController.previousBackStackEntry?.savedStateHandle?.get<File>("file")?.let {
-                PDFReader(file = it)
+                val localPdf = rememberHorizontalVueReaderState(
+                    resource = ResourceType.Local(file = it, )
+                )
+                HorizontalPdfViewer(horizontalReaderState = localPdf)
             }
         }
     }
 }
 
 sealed class Route(val route: String){
-    object Home : Route("home")
-    object PdfReader : Route("pdf_reader")
+    data object Home : Route("home")
+    data object PdfReader : Route("pdf_reader")
 }
 
 private fun navigateToPdfReader(file: File, navController: NavController){

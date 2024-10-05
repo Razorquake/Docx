@@ -5,19 +5,28 @@ import android.content.Intent
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.docx.domain.PdfEntity
 import com.example.docx.util.deleteFile
 import com.example.docx.util.getFileUri
 import com.example.docx.util.loadPdfsFromDirectory
 import com.example.docx.util.renameFile
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class HomeViewModel(private val context: Context) : ViewModel() {
-    private val pdfs = mutableStateOf(loadPdfsFromDirectory(context))
-    private val _state = mutableStateOf(HomeState(pdfs = pdfs.value))
+    private val _pdfs = MutableStateFlow(loadPdfsFromDirectory(context))
+    val pdfs: StateFlow<List<PdfEntity>> = _pdfs
+
+    private val _state = mutableStateOf(HomeState(pdfs = _pdfs))
     val state: State<HomeState> = _state
     private fun showDialog(){
         _state.value = _state.value.copy(
             isDialogOpen = true
         )
+    }
+
+    private fun refreshPdfs() {
+        _pdfs.value = loadPdfsFromDirectory(context)
     }
     private fun hideDialog(){
         _state.value = _state.value.copy(
@@ -26,16 +35,16 @@ class HomeViewModel(private val context: Context) : ViewModel() {
     }
     fun onEvent(event: HomeEvent){
         when(event){
+            is HomeEvent.RefreshPdfs -> {
+                refreshPdfs()
+            }
             is HomeEvent.ShowDialog -> {
                 showDialog()
             }
             is HomeEvent.HideDialog -> {
                 hideDialog()
             }
-            is HomeEvent.AddPdf -> {
-                val updatedPdfs = loadPdfsFromDirectory(context) // reload the list of PDFs
-                _state.value = _state.value.copy(pdfs = updatedPdfs)
-            }
+            is HomeEvent.AddPdf -> refreshPdfs()
             is HomeEvent.ShowRenameDialog -> {
                 _state.value = _state.value.copy(
                     isRenameDialogOpen = true
@@ -54,8 +63,7 @@ class HomeViewModel(private val context: Context) : ViewModel() {
             }
             is HomeEvent.DeletePdf -> {
                 if(deleteFile(context, event.pdf.name)) {
-                    val updatedPdfs = loadPdfsFromDirectory(context) // reload the list of PDFs
-                    _state.value = _state.value.copy(pdfs = updatedPdfs)
+                    refreshPdfs()
                     // Delete the PDF
                     _state.value = _state.value.copy(
                         selectedPdf = null
@@ -67,8 +75,7 @@ class HomeViewModel(private val context: Context) : ViewModel() {
                 // Rename the PDF
                 if (event.pdf.name != event.newName){
                     renameFile(context, event.pdf.name, event.newName)
-                    val updatedPdfs = loadPdfsFromDirectory(context) // reload the list of PDFs
-                    _state.value = _state.value.copy(pdfs = updatedPdfs)
+                    refreshPdfs()
                 }
                 else {}
 
@@ -84,7 +91,6 @@ class HomeViewModel(private val context: Context) : ViewModel() {
                 shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri)
                 shareIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
                 context.startActivity(Intent.createChooser(shareIntent, "Share PDF"))
-
             }
         }
     }
