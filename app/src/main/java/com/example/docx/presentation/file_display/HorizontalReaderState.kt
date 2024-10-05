@@ -1,6 +1,7 @@
 package com.example.docx.presentation.file_display
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
@@ -20,12 +21,14 @@ class HorizontalReaderState(
 
     override suspend fun nextPage() {
         if (currentPage < pdfPageCount) {
+            Log.d(TAG, "nextPage: $currentPage")
             pagerState.animateScrollToPage(pagerState.currentPage + 1)
         }
     }
 
     override suspend fun prevPage() {
         if (currentPage > 1) {
+            Log.d(TAG, "prevPage: $currentPage")
             pagerState.animateScrollToPage(pagerState.currentPage - 1)
         }
     }

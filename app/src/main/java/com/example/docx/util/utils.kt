@@ -403,7 +403,7 @@ fun File.share(context: Context) {
         )
     }
 }
-public fun deleteMlkitDocscanUiClientDirectory(cacheDir: File) {
+fun deleteMlkitDocscanUiClientDirectory(cacheDir: File) {
     val directory = File(cacheDir, "mlkit_docscan_ui_client")
     if (directory.exists() && directory.isDirectory) {
         directory.deleteRecursively()
