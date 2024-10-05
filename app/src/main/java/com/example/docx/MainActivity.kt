@@ -42,64 +42,7 @@ class MainActivity : ComponentActivity() {
                         .navigationBarsPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    var imageUris by remember {
-//                        mutableStateOf<List<Uri>>(emptyList())
-//                    }
-//                    val scannerLauncher = rememberLauncherForActivityResult(
-//                        contract = ActivityResultContracts.StartIntentSenderForResult()
-//                    ) {
-//                        if (it.resultCode == RESULT_OK) {
-//                            val result = GmsDocumentScanningResult.fromActivityResultIntent(it.data)
-//                            imageUris = result?.pages?.map { it.imageUri } ?: emptyList()
-//                            result?.pdf?.let { pdf ->
-//                                val fos = FileOutputStream(File(filesDir, "scan.pdf"))
-//                                contentResolver.openInputStream(pdf.uri)?.use { inputStream ->
-//                                    inputStream.copyTo(fos)
-//                                }
-//                            }
-//                        }
-//                    }
-//                    Box(modifier = Modifier.fillMaxSize()) {
-//
-//                        LazyColumn(
-//                            modifier = Modifier.fillMaxSize(),
-//                            verticalArrangement = Arrangement.Center,
-//                            horizontalAlignment = Alignment.CenterHorizontally
-//                        ) {
-//                            items(imageUris.size) { index ->
-//                                AsyncImage(
-//                                    model = imageUris[index],
-//                                    contentDescription = null,
-//                                    contentScale = ContentScale.FillWidth,
-//                                    modifier = Modifier.fillMaxWidth()
-//                                )
-//
-//                            }
-//
-//                        }
-//                        FloatingActionButton(onClick = {
-//                            scanner.getStartScanIntent(this@MainActivity)
-//                                .addOnSuccessListener {
-//                                    scannerLauncher.launch(
-//                                        IntentSenderRequest.Builder(it)
-//                                            .build()
-//                                    )
-//                                }
-//                                .addOnFailureListener {
-//                                    Toast.makeText(
-//                                        applicationContext,
-//                                        it.message,
-//                                        Toast.LENGTH_SHORT
-//                                    ).show()
-//                                }
-//                            },
-//                            modifier = Modifier.align(Alignment.BottomEnd)
-//                                .padding(16.dp),
-//                        ) {
-//                            Icon(imageVector = Icons.Default.Add, contentDescription = null)
-//                        }
-//                    }
-                    Navigator()
+                    Navigator(modifier = Modifier.fillMaxSize())
                 }
             }
         }

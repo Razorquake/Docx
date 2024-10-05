@@ -19,11 +19,15 @@ class HorizontalReaderState(
         updatedPageCount = { pdfPageCount })
 
     override suspend fun nextPage() {
-        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+        if (currentPage < pdfPageCount) {
+            pagerState.animateScrollToPage(pagerState.currentPage + 1)
+        }
     }
 
     override suspend fun prevPage() {
-        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+        if (currentPage > 1) {
+            pagerState.animateScrollToPage(pagerState.currentPage - 1)
+        }
     }
 
     override fun rotate(angle: Float) {

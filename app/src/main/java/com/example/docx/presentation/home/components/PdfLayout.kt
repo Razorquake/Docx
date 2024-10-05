@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -62,7 +63,7 @@ fun PdfLayout(
                 fileName = pdfEntity.name
             )
             onClick(file)
-        }
+        }.fillMaxWidth()
     ) {
         Image(
             painter = painterResource(id = R.drawable.picture_as_pdf),
@@ -84,7 +85,9 @@ fun PdfLayout(
                 overflow = TextOverflow.Ellipsis,
                 color = colorResource(id = R.color.text_title)
             )
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_article_24),
                     contentDescription = null,
@@ -116,12 +119,13 @@ fun PdfLayout(
                       event(HomeEvent.ShowDialog)
                 event(HomeEvent.SetSelectedPdf(pdfEntity))
             },
-            modifier = Modifier.align(Alignment.CenterVertically)
+            modifier = modifier.align(Alignment.CenterVertically).weight(1f)
         ) {
             Icon(
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = null,
                 tint = colorResource(id = R.color.body),
+                modifier = modifier.weight(1f)
                 )
         }
     }

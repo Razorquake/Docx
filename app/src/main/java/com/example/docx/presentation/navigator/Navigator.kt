@@ -1,6 +1,7 @@
 package com.example.docx.presentation.navigator
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -16,7 +17,7 @@ import com.example.docx.presentation.home.HomeViewModel
 import java.io.File
 
 @Composable
-fun Navigator(){
+fun Navigator(modifier: Modifier = Modifier){
     val navController = rememberNavController()
     val context = LocalContext.current
     NavHost(
@@ -26,7 +27,7 @@ fun Navigator(){
             val viewModel: HomeViewModel = viewModel(
                 factory = viewModelFactory {
                     addInitializer(HomeViewModel::class){
-                        HomeViewModel(context = context)
+                        HomeViewModel(context = context,)
                     }
                 }
             )
@@ -35,6 +36,7 @@ fun Navigator(){
             HomeScreen(
                 state = state.value,
                 event = event,
+                modifier = modifier,
                 navigateToPdfReader = { file ->
                                       navigateToPdfReader(file = file, navController = navController)
                 },

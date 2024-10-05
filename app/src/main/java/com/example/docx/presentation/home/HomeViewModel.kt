@@ -1,17 +1,17 @@
 package com.example.docx.presentation.home
 
 import android.content.Context
-import android.content.Intent
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.docx.domain.PdfEntity
 import com.example.docx.util.deleteFile
-import com.example.docx.util.getFileUri
 import com.example.docx.util.loadPdfsFromDirectory
 import com.example.docx.util.renameFile
+import com.example.docx.util.share
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import java.io.File
 
 class HomeViewModel(private val context: Context) : ViewModel() {
     private val _pdfs = MutableStateFlow(loadPdfsFromDirectory(context))
@@ -85,12 +85,8 @@ class HomeViewModel(private val context: Context) : ViewModel() {
                 )
             }
             is HomeEvent.SharePdf -> {
-                val fileUri = getFileUri(context, event.pdf.name)
-                val shareIntent = Intent(Intent.ACTION_SEND)
-                shareIntent.type = "application/pdf"
-                shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri)
-                shareIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                context.startActivity(Intent.createChooser(shareIntent, "Share PDF"))
+                val sharedPdf = File(context.filesDir, event.pdf.name)
+                sharedPdf.share(context)
             }
         }
     }

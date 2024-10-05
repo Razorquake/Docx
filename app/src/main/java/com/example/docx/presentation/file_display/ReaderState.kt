@@ -232,6 +232,8 @@ abstract class ReaderState (
                         try {
                             scannedFile = when {
                                 gmsResult.pdf != null -> {
+                                    vueLoadState = LoadState.DocumentImporting
+                                    renderer?.close()
                                     val pdfFile = File(context.cacheDir, "scanned_document.pdf")
                                     context.contentResolver.openInputStream(gmsResult.pdf!!.uri)?.use { input ->
                                         pdfFile.outputStream().use { output ->
@@ -241,6 +243,8 @@ abstract class ReaderState (
                                     pdfFile
                                 }
                                 gmsResult.pages!!.isNotEmpty() -> {
+                                    vueLoadState = LoadState.DocumentImporting
+                                    renderer?.close()
                                     val imageFile = File(context.cacheDir, "scanned_document.jpg")
                                     context.contentResolver.openInputStream(gmsResult.pages!!.first().imageUri)?.use { input ->
                                         imageFile.outputStream().use { output ->
@@ -294,8 +298,6 @@ abstract class ReaderState (
         }
 
         return {
-            vueLoadState = LoadState.DocumentImporting
-            renderer?.close()
 
             scanner.getStartScanIntent(activity)
                 .addOnSuccessListener { intentSender ->

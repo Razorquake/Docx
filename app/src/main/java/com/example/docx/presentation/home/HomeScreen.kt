@@ -40,7 +40,8 @@ import java.io.File
 fun HomeScreen(
     state: HomeState,
     event: (HomeEvent)-> Unit,
-    navigateToPdfReader: (File) -> Unit
+    navigateToPdfReader: (File) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val activity = LocalContext.current as Activity
     val context = LocalContext.current
@@ -111,7 +112,7 @@ fun HomeScreen(
     ) {
         PdfList(
             pdfList = pdfList,
-            modifier = Modifier.padding(it).fillMaxSize(),
+            modifier = modifier.padding(it).fillMaxSize(),
             event = event,
             onClick = {file ->
                 navigateToPdfReader(file)

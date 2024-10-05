@@ -39,8 +39,7 @@ import java.nio.file.attribute.BasicFileAttributes
 import java.nio.file.attribute.FileTime
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
+import java.util.Calendar
 import java.util.UUID
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -48,19 +47,13 @@ import kotlin.math.sin
 
 fun copyPdfFileToAppDirectory(context: Context, pdfUri: Uri){
     val time = LocalDateTime.now()
-    val fileName = "Docx ${time.format(
-        DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-    )}.pdf"
+    val fileName = "Docx ${Calendar.getInstance().timeInMillis}.pdf"
     val inputStream = context.contentResolver.openInputStream(pdfUri)
     val outputFile = File(context.filesDir, fileName)
     FileOutputStream(outputFile).use { outputStream ->
         inputStream?.copyTo(outputStream)
     }
     setFileDate(context, fileName, time)
-}
-fun getFileUri(context: Context, fileName: String): Uri {
-    val file = File(context.filesDir, fileName)
-    return FileProvider.getUriForFile(context, "${context.packageName}.provider", file)
 }
 
 fun getFile(context: Context, fileName: String): File {
