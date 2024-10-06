@@ -23,7 +23,7 @@ fun PdfList(
         return
     }
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(24.dp),
         contentPadding = PaddingValues(6.dp)
     ) {

@@ -27,7 +27,7 @@ fun Navigator(modifier: Modifier = Modifier){
             val viewModel: HomeViewModel = viewModel(
                 factory = viewModelFactory {
                     addInitializer(HomeViewModel::class){
-                        HomeViewModel(context = context,)
+                        HomeViewModel(context = context)
                     }
                 }
             )
@@ -45,7 +45,7 @@ fun Navigator(modifier: Modifier = Modifier){
         composable(Route.PdfReader.route){
             navController.previousBackStackEntry?.savedStateHandle?.get<File>("file")?.let {
                 val localPdf = rememberHorizontalVueReaderState(
-                    resource = ResourceType.Local(file = it, )
+                    resource = ResourceType.Local(file = it)
                 )
                 HorizontalPdfViewer(horizontalReaderState = localPdf)
             }

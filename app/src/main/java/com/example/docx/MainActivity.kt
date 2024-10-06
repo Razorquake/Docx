@@ -6,6 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.waterfallPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
@@ -24,25 +28,17 @@ class MainActivity : ComponentActivity() {
                 viewModel.splashCondition
             }
         }
-//        val options = GmsDocumentScannerOptions.Builder()
-//            .setGalleryImportAllowed(true)
-//            .setScannerMode(GmsDocumentScannerOptions.SCANNER_MODE_FULL)
-//            .setResultFormats(
-//                GmsDocumentScannerOptions.RESULT_FORMAT_JPEG,
-//                GmsDocumentScannerOptions.RESULT_FORMAT_PDF
-//            )
-//            .build()
-//        val scanner = GmsDocumentScanning.getClient(options)
         setContent {
             DocxTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
-                        .navigationBarsPadding(),
+                        .statusBarsPadding()
+                        .systemBarsPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigator(modifier = Modifier.fillMaxSize())
+                    Navigator(modifier = Modifier)
                 }
             }
         }

@@ -7,7 +7,9 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.sp
 import com.example.docx.R
 import com.example.docx.presentation.dialogs.MoreDialog
@@ -78,8 +81,10 @@ fun HomeScreen(
             event(HomeEvent.RefreshPdfs)
     }
     Scaffold(
+        modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
+                modifier = modifier,
                 title = {
                     Text(
                         text = "Docx",
@@ -90,7 +95,9 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
+            FloatingActionButton(
+                modifier = modifier,
+                onClick = {
                 scanner.getStartScanIntent(activity)
                     .addOnSuccessListener {
                         scannerLauncher.launch(
@@ -112,7 +119,7 @@ fun HomeScreen(
     ) {
         PdfList(
             pdfList = pdfList,
-            modifier = modifier.padding(it).fillMaxSize(),
+            modifier = Modifier.padding(it).statusBarsPadding().fillMaxWidth(),
             event = event,
             onClick = {file ->
                 navigateToPdfReader(file)

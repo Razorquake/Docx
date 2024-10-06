@@ -1,6 +1,5 @@
 package com.example.docx.presentation.home.components
 
-import android.app.Activity
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -48,22 +46,14 @@ fun PdfLayout(
     onClick: (File) -> Unit
 ){
     val context = LocalContext.current
-//    val activity = LocalContext.current as Activity
     Row(
         modifier = modifier.clickable {
-//            val getFileUri = getFileUri(
-//                context = context,
-//                fileName = pdfEntity.name
-//            )
-//            val browserIntent = Intent(Intent.ACTION_VIEW, getFileUri)
-//            browserIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-//            activity.startActivity(browserIntent)
             val file = getFile(
                 context,
                 fileName = pdfEntity.name
             )
             onClick(file)
-        }.fillMaxWidth()
+        }
     ) {
         Image(
             painter = painterResource(id = R.drawable.picture_as_pdf),
@@ -74,8 +64,9 @@ fun PdfLayout(
         )
         Column(
             verticalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier
+            modifier = modifier
                 .padding(horizontal = 4.dp)
+                .weight(1f)
                 .height(96.dp)
         ) {
             Text(
@@ -97,19 +88,19 @@ fun PdfLayout(
                 Spacer(modifier = Modifier.width(2.dp))
                 Text(
                     text = pdfEntity.pages.toString(),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelSmall,
                     color = colorResource(id = R.color.body)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = pdfEntity.lastModifiedTime.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)),
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelSmall,
                     color = colorResource(id = R.color.body)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = pdfEntity.size,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.labelSmall,
                     color = colorResource(id = R.color.body)
                 )
             }
@@ -119,13 +110,13 @@ fun PdfLayout(
                       event(HomeEvent.ShowDialog)
                 event(HomeEvent.SetSelectedPdf(pdfEntity))
             },
-            modifier = modifier.align(Alignment.CenterVertically).weight(1f)
+            modifier = Modifier.align(Alignment.CenterVertically)
         ) {
             Icon(
                 imageVector = Icons.Default.MoreVert,
                 contentDescription = null,
                 tint = colorResource(id = R.color.body),
-                modifier = modifier.weight(1f)
+                modifier = modifier
                 )
         }
     }
