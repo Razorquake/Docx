@@ -11,6 +11,11 @@ A document scanner app made with ML Kit.
 - Delete documents as needed.
 - Utilize Google ML KIT's document scanning library for enhanced scanning accuracy.
 
+## Video Demo
+
+[Watch the video demo](https://drive.google.com/file/d/1N4uFm4aXRS4kfUp0piheRtXPDAA3vucx/view?usp=drivesdk)
+
+
 ## Installation
 
 To get started with Docx, clone the repository and open it in your preferred Kotlin-compatible IDE.
