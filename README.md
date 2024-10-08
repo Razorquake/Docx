@@ -13,10 +13,8 @@ A document scanner app made with ML Kit.
 
 ## Video Demo
 
-<video width="600" controls>
-  <source src="https://drive.google.com/uc?export=download&id=1N4uFm4aXRS4kfUp0piheRtXPDAA3vucx" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[Watch the video demo](https://drive.google.com/file/d/1N4uFm4aXRS4kfUp0piheRtXPDAA3vucx/view?usp=drivesdk)
+
 
 
 
